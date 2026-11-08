@@ -1,0 +1,7 @@
+source_ip,failed_logins,total_attempts,percent,status
+10.0.0.5,12,400,3.0,OK
+10.0.0.6,45,100,45.0,OK
+10.0.0.7,18,200,9.0,OK
+10.0.0.8,95,100,95.0,WARNING
+10.0.0.9,5,100,5.0,OK
+10.0.0.10,9,10,90.0,WARNING
