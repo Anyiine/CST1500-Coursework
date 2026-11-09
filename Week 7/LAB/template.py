@@ -1,53 +1,106 @@
 """
-RECORD CHECK  -  my version
+RECORD CHECK - my version
 ===========================
 
-Name  :
-Lane  :  AI / Cyber / IT      (delete two)
-Date  :
-
-Run it:   python template.py
-
-Work through the numbered sections in order. Each one tells you what it must do.
-Delete these instructions as you replace them with your code.
+Name  : Gideon
+Lane  : Cyber
+Date  : 29/10/2026
 """
 
-# =================================================================== FUNCTIONS
-# 1. Write parse_line(raw_line) that cleans and parses one raw, messy line
-#    into a dict. Handle inconsistent spacing and case - that is the whole
-#    point of this week.
-#
-#    Typical and above: also write status_of(...), shaped for your lane
-#    (e.g. OVER LIMIT / WARNING / OK, or FLAGGED / OK). Give both a
-#    one-line docstring.
+# This section contains the functions
 
-# your function(s) go here
+# This function cleans a messy security record
+def parse_line(raw_line):
+    """Clean a security record and return a dictionary."""
+
+    # This removes spaces and changes the text to lowercase
+    raw_line = raw_line.strip().lower()
+
+    # This splits the record into separate parts
+    parts = raw_line.split(",")
+
+    # This creates an empty dictionary
+    record = {}
+
+    # This checks each part of the record
+    for part in parts:
+
+        # This separates the key and value
+        key, value = part.split("=")
+
+        # This removes extra spaces
+        key = key.strip()
+        value = value.strip()
+
+        # This changes attempts into a number
+        if key == "attempts":
+            value = int(value)
+
+        # This adds the cleaned details to the dictionary
+        record[key] = value
+
+    # This returns the cleaned record
+    return record
 
 
-# ====================================================================== INPUT
-# 2. Your raw, messy records - at least 5, deliberately varied in spacing
-#    and case. Match the shape to your lane:
-#
-#    AI / Data Science : "  Survey_2026 , rating=4 , age=23  "
-#    Cyber Security     : "SRC=10.0.0.5,ATTEMPTS=12,RESULT=FAILED"
-#    IT                  : "  Srv-01 , used=87 , total=100  "
-#
-#    Excellent: save these lines to a file and load them with open() /
-#    a for loop over the file, instead of writing them directly here.
+# This function checks the login result
+def status_of(record):
+    """Return the status of a security record."""
 
-raw_records = []   # replace with your code
+    # This checks if the login failed
+    if record["result"] == "failed":
+        return "FLAGGED"
+    else:
+        return "OK"
 
 
-# =============================================================== PROCESS + OUTPUT
-# 3. Parse and report on every record.
-#
-#    Threshold : parse each record, print the cleaned dict.
-#    Typical   : also call status_of(...) for each, print it alongside.
-#    Excellent : print a one-line summary at the end - how many records,
-#                how many flagged.
+# This section loads the security records
 
+# This creates an empty list
+raw_records = []
+
+# This opens the security records file from Week 7
+with open("Week 7/LAB/security_records.txt", "r") as file:
+
+    # This reads each line from the file
+    for line in file:
+        raw_records.append(line)
+
+
+# This section processes and displays the results
+
+# This starts counting all records
+total_records = 0
+
+# This starts counting flagged records
+flagged_count = 0
+
+# This checks every security record
 for raw_record in raw_records:
-    pass   # replace with your code
+
+    # This cleans the record
+    record = parse_line(raw_record)
+
+    # This checks the record status
+    status = status_of(record)
+
+    # This prints the cleaned record and status
+    print("\nRecord:", record)
+    print("Status:", status)
+
+    # This counts the records
+    total_records += 1
+
+    # This counts failed login records
+    if status == "FLAGGED":
+        flagged_count += 1
+
+
+# This section displays the final summary
+
+# This prints the total records and flagged records
+print("\nTotal records:", total_records)
+print("Flagged records:", flagged_count)
 
 
 # ==========================================================================
